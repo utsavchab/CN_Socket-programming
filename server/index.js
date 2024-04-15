@@ -14,13 +14,7 @@ io.on('connection', (socket) => {
   socket.emit('welcome', 'Connected to server')
 
   socket.on('msg', (payload) => {
-    let number = Number(payload)
-    if (number) {
-      number--
-      socket.broadcast.to(client2).emit('print', number)
-    } else {
-      socket.emit('wrong input', `wrong input ${payload}`)
-    }
+    io.emit('response', payload)
   })
 
   socket.on('client1', () => {
