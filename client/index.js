@@ -21,6 +21,7 @@ socket.on('connect', () => {
   try {
     const data = fs.readFileSync(fileName, 'binary')
     const extension = fileName.split('.').reverse()[0]
+
     // console.log(data)
     socket.emit('client1')
     socket.emit('file', { extension, data })
