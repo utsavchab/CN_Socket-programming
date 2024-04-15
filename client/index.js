@@ -19,7 +19,6 @@ socket.on('response', (payload) => {
 
 socket.on('close', (payload) => {
   console.log(payload)
-  process.exit(0)
 })
 
 http.listen(3000, () => {
