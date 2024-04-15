@@ -1,16 +1,34 @@
 const http = require('http').Server()
 const io = require('socket.io')(http)
 
+let client1
+let client2
 io.on('connection', (socket) => {
-  console.log('client connected', socket.id)
+  if (client1) {
+    console.log('client 1', client1)
+  }
+  if (client2) {
+    console.log('client 2', client2)
+  }
+
   socket.emit('welcome', 'Connected to server')
+
   socket.on('msg', (payload) => {
-    try {
-      const result = eval(payload)
-      socket.emit('response', result)
-    } catch (err) {
-      socket.emit('close', 'invalid input')
+    let number = Number(payload)
+    if (number) {
+      number--
+      socket.broadcast.to(client2).emit('print', number)
+    } else {
+      socket.emit('wrong input', `wrong input ${payload}`)
     }
+  })
+
+  socket.on('client1', () => {
+    client1 = socket.id
+  })
+
+  socket.on('client2', () => {
+    client2 = socket.id
   })
 })
 

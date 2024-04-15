@@ -9,6 +9,9 @@ const readline = require('node:readline').createInterface({
 readline.on('line', (input) => {
   socket.emit('msg', input)
 })
+socket.on('connect', () => {
+  socket.emit('client1')
+})
 socket.on('welcome', (payload) => {
   console.log(payload)
 })
@@ -17,7 +20,7 @@ socket.on('response', (payload) => {
   console.log(payload)
 })
 
-socket.on('close', (payload) => {
+socket.on('wrong input', (payload) => {
   console.log(payload)
 })
 
