@@ -1,5 +1,6 @@
 const http = require('http').Server()
 const io = require('socket.io')(http)
+const fs = require('fs')
 
 let client1
 let client2
@@ -23,6 +24,13 @@ io.on('connection', (socket) => {
 
   socket.on('client2', () => {
     client2 = socket.id
+  })
+
+  socket.on('file', (payload) => {
+    console.log('file')
+    console.log(payload.extension)
+    fs.writeFileSync(`received.${payload.extension}`, payload.data)
+    socket.emit('file received')
   })
 })
 
